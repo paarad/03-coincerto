@@ -1,0 +1,45 @@
+name: Daily Music Composition
+
+on:
+  schedule:
+    # Run daily at 9:00 UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Setup environment
+        run: |
+          cp env.example .env
+          echo "MUSIC_API_URL=${{ secrets.MUSIC_API_URL }}" >> .env
+          echo "MUSIC_API_KEY=${{ secrets.MUSIC_API_KEY }}" >> .env
+          echo "IMAGE_API_URL=${{ secrets.IMAGE_API_URL }}" >> .env
+          echo "IMAGE_API_KEY=${{ secrets.IMAGE_API_KEY }}" >> .env
+          echo "PROJECT2_API_URL=${{ secrets.PROJECT2_API_URL }}" >> .env
+          echo "PROJECT2_API_KEY=${{ secrets.PROJECT2_API_KEY }}" >> .env
+          
+      - name: Generate daily composition
+        run: npm run compose:today
+        
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/tracks/
+          git commit -m "🎵 Daily composition: $(date +%Y-%m-%d)" || exit 0
+          git push 
