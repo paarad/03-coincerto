@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Play, Pause, Calendar, Image as ImageIcon, ExternalLink, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Play, Pause, Calendar, Image as ImageIcon, ExternalLink, TrendingUp, TrendingDown, Minus, Volume2, VolumeX } from 'lucide-react';
 import { useState } from 'react';
 
 interface TrackCardProps {
@@ -35,6 +35,10 @@ interface TrackCardProps {
 export function TrackCard({ track }: TrackCardProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [volume, setVolume] = useState(0.3); // Volume bas par défaut (30%)
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   const formattedDate = new Date(track.date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -55,13 +59,35 @@ export function TrackCard({ track }: TrackCardProps) {
       }
     } else {
       const newAudio = new Audio(track.audioUrl);
+      newAudio.volume = isMuted ? 0 : volume; // Appliquer le volume actuel
       newAudio.addEventListener('ended', () => setIsPlaying(false));
       newAudio.addEventListener('pause', () => setIsPlaying(false));
       newAudio.addEventListener('play', () => setIsPlaying(true));
+      newAudio.addEventListener('loadedmetadata', () => {
+        setDuration(newAudio.duration);
+      });
+      newAudio.addEventListener('timeupdate', () => {
+        setCurrentTime(newAudio.currentTime);
+      });
       
       setAudio(newAudio);
       newAudio.play();
       setIsPlaying(true);
+    }
+  };
+
+  const handleVolumeChange = (newVolume: number) => {
+    setVolume(newVolume);
+    if (audio) {
+      audio.volume = isMuted ? 0 : newVolume;
+    }
+  };
+
+  const handleMuteToggle = () => {
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    if (audio) {
+      audio.volume = newMutedState ? 0 : volume;
     }
   };
 
@@ -86,7 +112,7 @@ export function TrackCard({ track }: TrackCardProps) {
           <img 
             src={track.imageUrl} 
             alt={`Cover for ${track.title}`}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-102"
             loading="lazy"
             onError={(e) => {
               console.error('Image failed to load:', track.imageUrl);
@@ -121,6 +147,48 @@ export function TrackCard({ track }: TrackCardProps) {
           </div>
         )}
       </div>
+
+      {/* Audio Controls - Positioned just under the cover image */}
+      {track.audioUrl && (
+        <div className="px-4 pt-3 pb-2">
+          <div className="flex items-center gap-3">
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-8 w-8"
+              onClick={handleMuteToggle}
+            >
+              {isMuted ? (
+                <VolumeX className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
+            </Button>
+                          <div className="flex-1 flex items-center gap-2">
+                <div className="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 flex items-center">
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={volume}
+                    onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                    className="w-full h-1 bg-transparent appearance-none cursor-pointer slider"
+                    disabled={isMuted}
+                  />
+                </div>
+                <span className="text-xs font-medium min-w-[2rem] text-right">
+                  {Math.round(volume * 100)}%
+                </span>
+              </div>
+              {duration > 0 && (
+                <div className="text-xs text-muted-foreground min-w-[3rem] text-right">
+                  {Math.floor(currentTime)}s / {Math.floor(duration)}s
+                </div>
+              )}
+          </div>
+        </div>
+      )}
 
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
@@ -214,6 +282,8 @@ export function TrackCard({ track }: TrackCardProps) {
             </div>
           </>
         )}
+
+
 
         {/* Mint Link */}
         {track.mintUrl && (
