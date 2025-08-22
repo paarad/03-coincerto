@@ -126,19 +126,24 @@ export async function applyOverlay(options: {
 }) {
   const { baseImage, title, date, prices, fearGreed, outFormat = "png" } = options;
 
-  // Charge l'image source
+  // Charge l'image source et redimensionne d'abord
   const base = typeof baseImage === "string"
     ? sharp(await fetchAsBuffer(baseImage))
     : sharp(baseImage);
 
-  const meta = await base.metadata();
-  const w = meta.width ?? 1024;
-  const h = meta.height ?? 1024;
+  // Redimensionner à 512x512 pour optimiser la taille
+  const resized = base.resize(512, 512, { 
+    fit: 'cover',
+    position: 'center'
+  });
 
-  const overlay = buildOverlaySVG({ title, date, width: w, height: h, prices, fearGreed });
+  const overlay = buildOverlaySVG({ title, date, width: 512, height: 512, prices, fearGreed });
 
-  const composed = base.composite([{ input: overlay }]);
-  return outFormat === "jpeg" ? composed.jpeg({ quality: 92 }).toBuffer() : composed.png().toBuffer();
+  const composed = resized.composite([{ input: overlay }]);
+  
+  return outFormat === "jpeg" 
+    ? composed.jpeg({ quality: 85 }).toBuffer() 
+    : composed.png({ compressionLevel: 9 }).toBuffer();
 }
 
 async function fetchAsBuffer(url: string) {

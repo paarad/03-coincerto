@@ -87,6 +87,11 @@ export function TrackCard({ track }: TrackCardProps) {
             src={track.imageUrl} 
             alt={`Cover for ${track.title}`}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            onError={(e) => {
+              console.error('Image failed to load:', track.imageUrl);
+              e.currentTarget.style.display = 'none';
+            }}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
