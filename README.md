@@ -65,5 +65,3 @@ MARKET_API_URL=https://api.coingecko.com/api/v3
 Each track is unique and reflects the current market sentiment. From calm ambient during stable periods to energetic beats during volatile times - the music tells the story of the crypto market!
 
 ---
-
-*Built with ❤️ for the crypto community* 
