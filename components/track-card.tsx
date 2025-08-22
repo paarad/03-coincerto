@@ -116,7 +116,6 @@ export function TrackCard({ track }: TrackCardProps) {
             loading="lazy"
             onError={(e) => {
               console.error('Image failed to load:', track.imageUrl);
-              e.currentTarget.style.display = 'none';
             }}
           />
         ) : (
