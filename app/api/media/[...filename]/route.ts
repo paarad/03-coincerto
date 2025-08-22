@@ -9,7 +9,7 @@ export async function GET(
   try {
     const { filename } = await params;
     const filenameStr = filename.join('/');
-    const mediaDir = path.join(process.cwd(), 'data', 'tracks', 'media');
+    const mediaDir = path.join(process.cwd(), 'public', 'media');
     const filePath = path.join(mediaDir, filenameStr);
     
     // Check if file exists
