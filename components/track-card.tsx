@@ -33,7 +33,6 @@ interface TrackCardProps {
 }
 
 export function TrackCard({ track }: TrackCardProps) {
-  console.log('TrackCard render - imageUrl:', track.imageUrl);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [volume, setVolume] = useState(0.3); // Volume bas par défaut (30%)
@@ -111,7 +110,7 @@ export function TrackCard({ track }: TrackCardProps) {
       <div className="relative aspect-square overflow-hidden bg-muted">
         {track.imageUrl ? (
           <img 
-            src={`${track.imageUrl}?t=${Date.now()}`} 
+            src={track.imageUrl} 
             alt={`Cover for ${track.title}`}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-102"
             loading="lazy"
@@ -184,7 +183,7 @@ export function TrackCard({ track }: TrackCardProps) {
               </div>
               {duration > 0 && (
                 <div className="text-xs text-muted-foreground min-w-[3rem] text-right">
-                  {Math.floor(currentTime)}s / {Math.floor(duration)}s
+                  {isPlaying ? `${Math.floor(currentTime)}s / ` : ''}{Math.floor(duration)}s
                 </div>
               )}
           </div>

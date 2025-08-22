@@ -33,6 +33,9 @@ export async function GET(
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=31536000', // Cache for 1 year
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
       },
     });
   } catch (error) {
