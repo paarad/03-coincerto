@@ -2,10 +2,6 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    turbopack: true,
-  },
   typescript: {
     tsconfigPath: './tsconfig.json'
   },

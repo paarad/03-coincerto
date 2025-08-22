@@ -24,11 +24,12 @@ export async function GET(
     
     // Determine content type based on file extension
     const ext = path.extname(filenameStr).toLowerCase();
-    const contentType = ext === '.png' ? 'image/png' : 
-                       ext === '.jpg' || ext === '.jpeg' ? 'image/jpeg' : 
+    const contentType = ext === '.png' ? 'image/png' :
+                       ext === '.jpg' || ext === '.jpeg' ? 'image/jpeg' :
+                       ext === '.webp' ? 'image/webp' :
                        'application/octet-stream';
     
-    return new NextResponse(imageBuffer, {
+    return new NextResponse(imageBuffer as any, {
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=31536000', // Cache for 1 year
