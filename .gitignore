@@ -93,6 +93,12 @@ temp/
 data/tracks/media/*.png
 data/tracks/media/*.jpg
 data/tracks/media/*.jpeg
-data/tracks/media/*.webp 
+data/tracks/media/*.webp
+
+# Allow overlay images in public/media for serving
+!public/media/*.png
+!public/media/*.jpg
+!public/media/*.jpeg
+!public/media/*.webp 
 
 cool_music

@@ -99,7 +99,7 @@ export async function runPipeline(isDryRun: boolean = false): Promise<Track> {
           });
           
           // Save the overlay image locally
-          const mediaDir = path.join(process.cwd(), "data", "tracks", "media");
+          const mediaDir = path.join(process.cwd(), "public", "media");
           await fs.mkdir(mediaDir, { recursive: true });
           const fileName = `${track.id}-overlay.png`;
           const overlayPath = path.join(mediaDir, fileName);
