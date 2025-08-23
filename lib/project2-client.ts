@@ -6,9 +6,6 @@ export async function fetchIndicators(): Promise<Indicators> {
   try {
     console.log('📊 Fetching market indicators from Project 2...');
     
-    // TEMPORARY: Force fallback to fake data while you fix Project 2
-    throw new Error('Temporarily using fake data for testing');
-    
     const response = await fetch(feedUrl, {
       method: 'GET',
       headers: {
