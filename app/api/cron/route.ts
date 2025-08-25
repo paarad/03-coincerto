@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('🔔 Cron job triggered - GitHub Actions will handle track generation');
+    console.log('🔔 Daily Coincerto cron job triggered');
+    
+    // Note: Vercel serverless functions have read-only filesystem
+    // Manual track generation is required via: npm run compose:today
     
     return NextResponse.json({
       ok: true,
-      message: 'Cron job triggered - Track generation handled by GitHub Actions',
-      note: 'Check GitHub Actions for actual track generation status',
+      message: 'Daily Coincerto cron job triggered successfully',
+      note: 'Manual track generation required due to Vercel filesystem limitations',
+      instruction: 'Run npm run compose:today locally to generate today\'s track',
       timestamp: new Date().toISOString()
     });
     
