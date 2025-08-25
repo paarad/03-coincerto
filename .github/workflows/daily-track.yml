@@ -9,6 +9,8 @@ on:
 jobs:
   generate-track:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
     - name: Checkout repository
@@ -35,4 +37,9 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add public/data/tracks/ public/media/
-        git diff --quiet && git diff --staged --quiet || (git commit -m "feat: auto-generate daily coincerto track $(date +'%Y-%m-%d')" && git push) 
+        if ! git diff --quiet || ! git diff --staged --quiet; then
+          git commit -m "feat: auto-generate daily coincerto track $(date +'%Y-%m-%d')"
+          git push
+        else
+          echo "No changes to commit"
+        fi 
