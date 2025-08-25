@@ -1,17 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { runPipeline } from '../../../automation/run';
 
 export async function GET(request: NextRequest) {
   try {
     console.log('🔔 Daily Coincerto cron job triggered');
     
-    // Note: Vercel serverless functions have read-only filesystem
-    // Manual track generation is required via: npm run compose:today
+    // Run the pipeline (now writing to public/ directory which should be writable)
+    const track = await runPipeline(false);
     
     return NextResponse.json({
       ok: true,
-      message: 'Daily Coincerto cron job triggered successfully',
-      note: 'Manual track generation required due to Vercel filesystem limitations',
-      instruction: 'Run npm run compose:today locally to generate today\'s track',
+      message: 'Daily Coincerto track generated successfully',
+      track: {
+        id: track.id,
+        date: track.date,
+        title: track.title,
+        hasAudio: !!track.audioUrl,
+        hasImage: !!track.imageUrl,
+        hasMint: !!track.mintUrl
+      },
       timestamp: new Date().toISOString()
     });
     
@@ -20,7 +27,7 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json({
       ok: false,
-      error: 'Cron job failed',
+      error: 'Pipeline execution failed',
       message: error instanceof Error ? error.message : 'Unknown error',
       timestamp: new Date().toISOString()
     }, { status: 500 });

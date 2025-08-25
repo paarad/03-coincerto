@@ -2,7 +2,7 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 import type { Track, TrackIndex } from './types';
 
-const DATA_DIR = join(process.cwd(), 'data', 'tracks');
+const DATA_DIR = join(process.cwd(), 'public', 'data', 'tracks');
 const INDEX_FILE = join(DATA_DIR, 'index.json');
 
 export async function ensureDataDirectory(): Promise<void> {
