@@ -1,24 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runPipeline } from '../../../automation/run';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log('🔔 Cron job triggered');
-    
-    // Run the pipeline
-    const track = await runPipeline(false);
+    console.log('🔔 Cron job triggered - GitHub Actions will handle track generation');
     
     return NextResponse.json({
       ok: true,
-      message: 'Daily track generation completed',
-      track: {
-        id: track.id,
-        date: track.date,
-        title: track.title,
-        hasAudio: !!track.audioUrl,
-        hasImage: !!track.imageUrl,
-        hasMint: !!track.mintUrl
-      },
+      message: 'Cron job triggered - Track generation handled by GitHub Actions',
+      note: 'Check GitHub Actions for actual track generation status',
       timestamp: new Date().toISOString()
     });
     
@@ -27,7 +16,7 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json({
       ok: false,
-      error: 'Pipeline execution failed',
+      error: 'Cron job failed',
       message: error instanceof Error ? error.message : 'Unknown error',
       timestamp: new Date().toISOString()
     }, { status: 500 });
