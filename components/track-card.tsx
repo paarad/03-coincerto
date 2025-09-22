@@ -192,7 +192,6 @@ export function TrackCard({ track }: TrackCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-1 min-w-0 flex-1">
-            <CardTitle className="text-lg leading-tight line-clamp-2">{track.title}</CardTitle>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Calendar className="h-3.5 w-3.5 shrink-0" />
               {formattedDate}
@@ -252,30 +251,6 @@ export function TrackCard({ track }: TrackCardProps) {
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Key</p>
                   <p className="font-medium">{track.musicParams.key} {track.musicParams.mode}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Brightness</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-muted rounded-full h-1.5">
-                      <div 
-                        className="bg-primary h-1.5 rounded-full transition-all" 
-                        style={{ width: `${(track.musicParams.brightness / 10) * 100}%` }}
-                      />
-                    </div>
-                    <span className="text-xs font-medium">{track.musicParams.brightness}/10</span>
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Density</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-muted rounded-full h-1.5">
-                      <div 
-                        className="bg-primary h-1.5 rounded-full transition-all" 
-                        style={{ width: `${(track.musicParams.density / 10) * 100}%` }}
-                      />
-                    </div>
-                    <span className="text-xs font-medium">{track.musicParams.density.toFixed(1)}/10</span>
-                  </div>
                 </div>
               </div>
             </div>

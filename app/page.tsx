@@ -69,7 +69,7 @@ export default async function Home() {
               </p>
             </div>
             <Separator />
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
               {fullTracks.map((track) => (
                 <TrackCard key={track.id} track={track} />
               ))}
