@@ -200,10 +200,10 @@ export function TrackCard({ track }: TrackCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3">
         {/* Market Indicators */}
         {track.indicators && (
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <p className="text-xs font-medium text-muted-foreground">Fear & Greed</p>
@@ -222,14 +222,14 @@ export function TrackCard({ track }: TrackCardProps) {
                 </Badge>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <p className="text-xs font-medium text-muted-foreground">Momentum</p>
-                <div className="text-sm font-medium">{track.indicators.momentum.toFixed(2)}</div>
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Momentum:</span>
+                <span className="font-medium">{track.indicators.momentum.toFixed(2)}</span>
               </div>
-              <div className="space-y-1">
-                <p className="text-xs font-medium text-muted-foreground">Regime</p>
-                <Badge variant={track.indicators.regime === 'bull' ? "default" : "secondary"} className="w-fit">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Regime:</span>
+                <Badge variant={track.indicators.regime === 'bull' ? "default" : "secondary"} className="text-xs px-2 py-0">
                   {track.indicators.regime}
                 </Badge>
               </div>
@@ -241,16 +241,16 @@ export function TrackCard({ track }: TrackCardProps) {
         {track.musicParams && (
           <>
             <Separator />
-            <div className="space-y-3">
+            <div className="space-y-2">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Musical Properties</p>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Tempo</p>
-                  <p className="font-medium">{track.musicParams.bpm} BPM</p>
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">Tempo:</span>
+                  <span className="font-medium">{track.musicParams.bpm} BPM</span>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Key</p>
-                  <p className="font-medium">{track.musicParams.key} {track.musicParams.mode}</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">Key:</span>
+                  <span className="font-medium">{track.musicParams.key} {track.musicParams.mode}</span>
                 </div>
               </div>
             </div>
