@@ -1,9 +1,10 @@
 name: Daily Coincerto Track Generation
 
 on:
-  schedule:
-    # Run daily at 8 PM London time (20:00 UTC)
-    - cron: '0 20 * * *'
+  # DISABLED: Schedule commented out to stop daily API calls
+  # schedule:
+  #   # Run daily at 8 PM London time (20:00 UTC)
+  #   - cron: '0 20 * * *'
   workflow_dispatch: # Allow manual triggering
 
 jobs:

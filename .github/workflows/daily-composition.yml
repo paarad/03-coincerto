@@ -1,9 +1,10 @@
 name: Daily Music Composition
 
 on:
-  schedule:
-    # Run daily at 9:00 UTC
-    - cron: '0 9 * * *'
+  # DISABLED: Schedule commented out to stop daily API calls
+  # schedule:
+  #   # Run daily at 9:00 UTC
+  #   - cron: '0 9 * * *'
   workflow_dispatch: # Allow manual trigger
 
 jobs:

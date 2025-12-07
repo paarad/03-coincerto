@@ -6,6 +6,9 @@ import { TrendingUp, Music2, Activity, BarChart3 } from 'lucide-react';
 import { TrackCard } from '@/components/track-card';
 import type { Track } from '@/lib/types';
 
+// Force dynamic rendering to avoid ISR with large base64 audio data
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const { tracks } = await loadIndex();
   
